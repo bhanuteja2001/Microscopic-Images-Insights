@@ -6,17 +6,17 @@ from tensorflow import keras
 
 
 
-st.title("Chest x-ray Covid predictor")
+st.title("White Blood Cell Classification")
 
 
-uploaded_file = st.file_uploader("Choose chest x-ray image. Recommended resolution was more then (512, 512).",
-                                 type="jpeg")
+uploaded_file = st.file_uploader("Upload the Microscopic Image of the Blood Sample:",
+                                 type=["jpeg","jpg", "png"])
 
 if uploaded_file is not None:
     image_orig = Image.open(uploaded_file).convert('RGB')
     st.image(image_orig, caption='Uploaded image', use_column_width=True)
     st.write("Classifying...")
-    MODEL_PATH = 'E:\Microscopic Insights\Microscopic\Microscopic-Images-Insights\weights\model_2.h5'
+    MODEL_PATH = 'E:\Microscopic Insights\Microscopic\Microscopic Images\Microscopic-Images-Insights\weights\model_2.h5'
     model = keras.models.load_model(MODEL_PATH)  # can be problem with path use (custom_model.hdf5)
     my_bar = st.progress(0)
 
