@@ -5,7 +5,7 @@ import cv2
 from tensorflow import keras
 
 
-
+"""
 st.title("White Blood Cell Classification")
 
 
@@ -40,4 +40,24 @@ if uploaded_file is not None:
 
     my_bar.progress(100)
     st.success('Done')
-    
+"""    
+class Classification:
+    def classification_type(self, image_org):
+        #image_orig = Image.open(uploaded_file).convert('RGB')
+        MODEL_PATH = 'E:\Microscopic Insights\Microscopic\Microscopic Images\Microscopic-Images-Insights\weights\model_2.h5'
+        model = keras.models.load_model(MODEL_PATH)
+        img_array = np.array(image_org)
+        img_array = cv2.resize(img_array, (320, 240), interpolation=cv2.INTER_NEAREST)  # norm
+        test_im = np.expand_dims(img_array, axis=0)
+        prediction = model.predict(test_im / 255)
+        prediction = np.argmax(prediction)
+        if prediction == 0:
+            string = "EOSINOPHIL"
+        elif prediction == 1:
+            string = "LYMPHOCYTE"
+        elif prediction == 2:
+            string = "MONOCYTE"
+        elif prediction == 3:
+            string = "NEUTROPHIL"
+        
+        return string
