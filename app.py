@@ -16,8 +16,11 @@ st.sidebar.write('#### Select an image to upload.')
 uploaded_file = st.sidebar.file_uploader('',
                                          type=['png', 'jpg', 'jpeg'],
                                          accept_multiple_files=False)
-#print("UPLOADED IMAGE : ",uploaded_file)
 
+st.sidebar.markdown('---')
+URL = st.sidebar.text_input("Enter the Image URL")
+#print("UPLOADED IMAGE : ",uploaded_file)
+st.sidebar.markdown('---')
 ## Add in sliders.
 confidence_threshold = st.sidebar.slider('Confidence threshold: What is the minimum acceptable confidence level for displaying a bounding box?', 0.0, 1.0, 0.5, 0.01)
 overlap_threshold = st.sidebar.slider('Overlap threshold: What is the maximum amount of overlap permitted between visible bounding boxes?', 0.0, 1.0, 0.5, 0.01)
@@ -28,6 +31,8 @@ st.write('# WBC Classification and Blood Cells Count')
 
 if uploaded_file:
     image = Image.open(uploaded_file)
+elif URL:
+    image = Image.open(requests.get(URL,stream=True).raw)
 else:
     url = 'https://github.com/bhanuteja2001/Microscopic-Images-Insights/blob/main/Images/neutrophilsinchemopatient.jpg?raw=true'
     url1 = 'https://github.com/matthewbrems/streamlit-bccd/blob/master/BCCD_sample_images/BloodImage_00062_jpg.rf.d54b89916d935069b63e08dee5cbfc27.jpg?raw=true'
@@ -157,6 +162,10 @@ st.write('### Histogram of Confidence Levels')
 fig, ax = plt.subplots()
 ax.hist(confidences, bins=10, range=(0.0,1.0))
 st.pyplot(fig)
+
+average = np.round(np.mean(confidences),4)
+if average < 0.60:
+    st.markdown("<b><font color=‘#FF0000’>The Image Quailty is not good enough to be identified!!</font></b>", unsafe_allow_html=True)
 
 df = pd.DataFrame.from_dict(output_file['predictions'])
 
