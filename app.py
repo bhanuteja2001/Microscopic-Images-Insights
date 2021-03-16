@@ -11,22 +11,25 @@ import matplotlib.pyplot as plt
 import Classification_Model
 import pandas as pd
 
-st.sidebar.write('#### Select an image to upload.')
 
+
+######## Sidebar  #########
+st.sidebar.write('#### Select an image to upload.')
 uploaded_file = st.sidebar.file_uploader('',
                                          type=['png', 'jpg', 'jpeg'],
                                          accept_multiple_files=False)
-
 st.sidebar.markdown('---')
 URL = st.sidebar.text_input("Enter the Image URL")
-#print("UPLOADED IMAGE : ",uploaded_file)
 st.sidebar.markdown('---')
-## Add in sliders.
+
+
+## Sliders in the side-bar ##
 confidence_threshold = st.sidebar.slider('Confidence threshold: What is the minimum acceptable confidence level for displaying a bounding box?', 0.0, 1.0, 0.5, 0.01)
 overlap_threshold = st.sidebar.slider('Overlap threshold: What is the maximum amount of overlap permitted between visible bounding boxes?', 0.0, 1.0, 0.5, 0.01)
 
 
-#default_url = 'https://www.microscopemaster.com/images/neutrophilsinchemopatient.jpg'
+######## Main #########
+
 st.write('# WBC Classification and Blood Cells Count')
 
 if uploaded_file:
@@ -35,9 +38,9 @@ elif URL:
     image = Image.open(requests.get(URL,stream=True).raw)
 else:
     url = 'https://github.com/bhanuteja2001/Microscopic-Images-Insights/blob/main/Images/neutrophilsinchemopatient.jpg?raw=true'
-    url1 = 'https://github.com/matthewbrems/streamlit-bccd/blob/master/BCCD_sample_images/BloodImage_00062_jpg.rf.d54b89916d935069b63e08dee5cbfc27.jpg?raw=true'
     image = Image.open(requests.get(url, stream=True).raw)
-#print(image)  
+
+    
 ## Subtitle.
 st.write('### Inferenced Image')
 
@@ -47,9 +50,11 @@ Pred = Obj.classification_type(image)
 
 buffered = io.BytesIO()
 image.save(buffered, quality=90, format='JPEG')
+
 # Base 64 encode.
 img_str = base64.b64encode(buffered.getvalue())
 img_str = img_str.decode('ascii')
+
 
 ## Construct the URL to retrieve image.
 upload_url = ''.join([
@@ -99,6 +104,8 @@ r = requests.post(upload_url,
 })
 
 
+
+## function to return a download link
 def download_link(object_to_download, download_filename, download_link_text):
     """
     Generates a link to download the given object_to_download.
@@ -126,6 +133,7 @@ def download_link(object_to_download, download_filename, download_link_text):
 ## Save the JSON.
 output_file = r.json()
 
+### Predicting the Output
 
 countR = 0
 countW = 0
@@ -153,29 +161,31 @@ st.write(f"Platelets count : {countP}")
 confidences = [box['confidence'] for box in output_file['predictions']]
 
 ## Summary statistics section in main app.
+
 st.write('### Summary Statistics')
 st.write(f'Number of Bounding Boxes (ignoring overlap thresholds): {len(confidences)}')
 st.write(f'Average Confidence Level of Bounding Boxes: {(np.round(np.mean(confidences),4))}')
 
+
 ## Histogram in main app.
+
 st.write('### Histogram of Confidence Levels')
 fig, ax = plt.subplots()
 ax.hist(confidences, bins=10, range=(0.0,1.0))
 st.pyplot(fig)
-
 average = np.round(np.mean(confidences),4)
 if average < 0.60:
     st.markdown("<b><font color=‘#FF0000’>The Image Quailty is not good enough to be identified!!</font></b>", unsafe_allow_html=True)
-
 df = pd.DataFrame.from_dict(output_file['predictions'])
 
 
-#Table and Download Button
+## Tabulation and Download Button
 st.write('### Table')
 st.write(df)
 if st.button('Download Dataframe as CSV'):
     tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
     st.markdown(tmp_download_link, unsafe_allow_html=True)
+
 ## Display the JSON in main app.
 #st.write('### JSON Output')
 #st.write(r.json())
