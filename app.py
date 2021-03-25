@@ -174,7 +174,8 @@ fig, ax = plt.subplots()
 ax.hist(confidences, bins=10, range=(0.0,1.0))
 st.pyplot(fig)
 average = np.round(np.mean(confidences),4)
-if average < 0.60:
+if average < 0.50:
+    print(average)
     st.markdown("<b><font color=‘#FF0000’>The Image Quailty is not good enough to be identified!!</font></b>", unsafe_allow_html=True)
 df = pd.DataFrame.from_dict(output_file['predictions'])
 
