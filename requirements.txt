@@ -1,8 +1,8 @@
-opencv_python==4.5.1.48
 pandas==1.2.2
-tensorflow==2.4.1
-numpy==1.19.5
 streamlit==0.77.0
-matplotlib==3.3.4
 requests==2.25.1
+tensorflow==2.4.1
+opencv_python==4.5.1.48
+numpy==1.19.5
+matplotlib==3.3.4
 Pillow==8.1.2
