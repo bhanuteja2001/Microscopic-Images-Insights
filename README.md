@@ -1,7 +1,7 @@
 ## Objective
 
 1. To Classify the type of White Blood Cell in a Microscopic Image
-2. To Count and Detect WBCs, RBCs, Platelets in a Microscopic
+2. To Count and Detect WBCs, RBCs, Platelets in a Microscopic  Image
 
 
 ## Important Urls
