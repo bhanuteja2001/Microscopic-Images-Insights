@@ -1,8 +1,3 @@
-# Microscopic-Images-Insights
-
-Complete blood count, or CBC, is a laboratory test used to determine the composition of the blood cells. This test provides a red blood cell, platelet, and white blood cell count. It is used to assess a variety of diseases, infections, leukemia, and anemia, among others. This identification is done in Morphology room if any abnormal data is found in CBC. In the morphology room, it takes some time to analyze each image of the sample. With the aid of deep learning, this initiative seeks to shorten this period. This work determines the type of white blood cells, and the number of different cells present in a microscopic image. Both these processes happen simultaneously. WBCs are very important to protect our body. There are five types of white blood cells: Lymphocytes, Monocytes, Eosinophils, Basophils and Neutrophils. The count of WBC and their types provide information on the health of the body. On the other hand, RBCs are crucial because they carry oxygen in our body. A web application is built with the trained models in the backend.
-
-
 ## Objective
 
 1. To Classify the type of White Blood Cell in a Microscopic Image
